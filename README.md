@@ -36,5 +36,4 @@ evaluate("x * (y + 2)", { x: 3, y: 4 });
 
 ## How to run 
 ```md
-```bash
 node test/test.js
