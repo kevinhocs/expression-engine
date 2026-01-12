@@ -27,13 +27,14 @@ The focus is correctness, predictability, and explicit control over parsing and 
 const { evaluate } = require('./index');
 
 evaluate("x * (y + 2)", { x: 3, y: 4 });
-// → 18
-
+// - 18
+```
 ## Limitations
 - Integer-only arithmetic
 - No unary operators
 - Limited grammar by design
 
-## How to run
+## How to run 
+```md
 ```bash
 node test/test.js
