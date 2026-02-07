@@ -73,12 +73,9 @@ function tokenize(input) {
             continue;
         }
 
-        throw new ParseError(`Unexpected character: ${char}`, i, { value: char }
-        );
+        throw new ParseError(`Unexpected character: ${char}`, i, { value: char });
     }
     return tokens;
 }
 
 module.exports = tokenize;
-
-// Export the tokenizer function
