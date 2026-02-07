@@ -1,25 +1,34 @@
 // test/test.js — simple usage examples for `evaluate`
 const { evaluate } = require('../index');
+const { formatError } = require('../engine/errors');
 
-console.log(evaluate("3 + 4 * 2")); 
+function expectEqual(actual, expected) {
+    if (actual !== expected) {
+        throw new Error(`Expected ${expected}, but got ${actual}`);
+    }
+}
+
+expectEqual(evaluate("3 + 4 * 2"), 11);
 // 11
 
-console.log(evaluate("(1 + 2) * (3 + 4)")); 
+expectEqual(evaluate("(1 + 2) * (3 + 4)"), 21);
 // 21
 
-console.log(evaluate("x * (y + 2)", { x: 3, y: 4 }));
+expectEqual(evaluate("x * (y + 2)", { x: 3, y: 4 }), 18);
 // 18
 
 try {
     evaluate("3 +");
 } catch (e) {
-    console.log(e.message);
+    console.log(formatError(e));
     // Expected output: "Insufficient operands"
 }
 
 try {
     evaluate("(3 + 4");
 } catch (e) {
-    console.log(e.message);
+    console.log(formatError(e));
     // Expected output: "Mismatched parentheses"
 }
+
+console.log("All tests passed.");
