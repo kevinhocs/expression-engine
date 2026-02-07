@@ -1,6 +1,8 @@
 // tokenizer.js
 // Convert an expression string into a sequence of simple tokens.
 
+const { ParseError } = require('./errors');
+
 function tokenize(input) {
     const tokens = [];
     let i = 0;
@@ -15,13 +17,16 @@ function tokenize(input) {
         }
 
         // Numbers
+
+        const start = i;
+        
         if (char >= '0' && char <= '9') {
             let numStr = '';
             while (i < input.length && input[i] >= '0' && input[i] <= '9') {
                 numStr += input[i];
                 i++;
             }
-            tokens.push({ type: 'NUMBER', value: parseInt(numStr, 10) });
+            tokens.push({ type: 'NUMBER', value: parseInt(numStr, 10), pos: start });
             continue;
         }
 
@@ -44,33 +49,33 @@ function tokenize(input) {
                 idStr += input[i];
                 i++;
             }
-            tokens.push({ type: 'IDENTIFIER', value: idStr });
+            tokens.push({ type: 'IDENTIFIER', value: idStr, pos: start });
             continue;
         }
 
         // Operators
         if (char === '+' || char === '-' || char === '*' || char === '/') {
-            tokens.push({ type: 'OPERATOR', value: char });
+            tokens.push({ type: 'OPERATOR', value: char, pos: start });
             i++;
             continue;
         }
 
         // Parentheses
         if (char === '(') {
-            tokens.push({ type: 'LPAREN' });
+            tokens.push({ type: 'LPAREN', pos: start });
             i++;
             continue;
         }
 
         if (char === ')') {
-            tokens.push({ type: 'RPAREN' });
+            tokens.push({ type: 'RPAREN', pos: start });
             i++;
             continue;
         }
 
-        throw new Error(`Unexpected character: ${char}`);
+        throw new ParseError(`Unexpected character: ${char}`, i, { value: char }
+        );
     }
-
     return tokens;
 }
 
