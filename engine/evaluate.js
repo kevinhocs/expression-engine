@@ -10,4 +10,4 @@ function evaluate(expression, variables = {}) {
 }
 
 // Export the evaluator
-module.exports = evaluate;
+module.exports = { evaluate };
